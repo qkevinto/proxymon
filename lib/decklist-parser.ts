@@ -37,14 +37,14 @@ const BASIC_ENERGY_TYPES = [
 ]
 
 const BASIC_ENERGY_IDS: { [key: string]: string } = {
-    '{D}': 'sm1-170',
-    '{F}': 'sm1-169',
-    '{R}': 'sm1-165',
-    '{G}': 'sm1-164',
-    '{L}': 'sm1-167',
-    '{M}': 'sm1-171',
-    '{P}': 'sm1-168',
-    '{W}': 'sm1-166',
+    '{D}': 'swsh12pt5-158',
+    '{F}': 'swsh12pt5-157',
+    '{R}': 'swsh12pt5-153',
+    '{G}': 'swsh12pt5-152',
+    '{L}': 'swsh12pt5-155',
+    '{M}': 'swsh12pt5-159',
+    '{P}': 'swsh12pt5-156',
+    '{W}': 'swsh12pt5-154',
 }
 
 const isBasicEnergy = (row: string): boolean => {
