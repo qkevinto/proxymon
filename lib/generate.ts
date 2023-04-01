@@ -5,12 +5,12 @@ import pokemontcgsdk from 'pokemontcgsdk'
 import { Configuration } from './configuration.js'
 import path from 'path'
 
-export async function generate(configuration: Configuration) {
+export async function generate(configuration: Configuration, cards: [number, string, string][]) {
     pokemontcgsdk.configure({ apiKey: configuration.pokemontcgApiKey })
-    const deck = createDeck(configuration.cards)
+    const deck = createDeck(cards)
 
     console.log(`Generating proxy deck with ${deck.length} cards:`)
-    configuration.cards.forEach(([count, id, name]) => {
+    cards.forEach(([count, id, name]) => {
         console.log(`${count}x ${name} (${id})`)
     })
     console.log()

@@ -33,36 +33,43 @@ npm install
             "margin": 10,
             // Gap between each card in millimeters
             "cardGap": 0.5
-        },
-        // List of cards formatted as:
-        // [count, id, name]
-        // - `count`: count of the same card
-        // - `id`: id for the card, this can be found by using
-        //   https://pokemontcg.guru, search for the card, go to the card's page
-        //   and the `id` will at the end of the URL:
-        //   https://pokemontcg.guru/card/ice-rider-calyrex-vmax-sword-and-shield/swsh6-46
-        // - `name`: only used for display purposes
-        "cards": [
-            [3, "swsh6-46", "Ice Rider Calyrex VMAX"],
-            [3, "swsh6-45", "Ice Rider Calyrex V"],
-            [2, "swsh6-43", "Inteleon"],
-            [2, "swsh1-58", "Inteleon"],
-            [4, "swsh1-56", "Drizzile"],
-            [4, "swsh6-41", "Sobble"],
-            [2, "swsh1-156", "Air Balloon"],
-            [3, "swsh45-58", "Boss's Orders [Lysandre]"],
-            [3, "swsh2-156", "Capacious Bucket"],
-            [3, "swsh1-163", "Evolution Incense"],
-            [4, "swsh5-129", "Level Ball"],
-            [2, "swsh1-169", "Marnie"],
-            [4, "swsh6-146", "Melony"],
-            [4, "swsh6-148", "Path to the Peak"],
-            [2, "swsh45-60", "Professor's Research [Professor Juniper]"],
-            [4, "swsh1-179", "Quick Ball"],
-            [2, "swsh1-183", "Switch"],
-            [9, "swsh6-231", "Water Energy"]
-        ]
+        }
     }
+    ```
+1. Create a `decklist` file using the standard TCGO/L export deck list format, for example:
+    ```
+    Pokémon: 10
+    2 Altaria EVS 106
+    1 Pyukumuku FST 77
+    2 Serperior VSTAR SIT 8
+    1 Kricketune V BST 6
+    4 Swablu EVS 132
+    1 Kricketune ASR 10
+    1 Manaphy BRS 41
+    1 Kricketot ASR 9
+    2 Serperior V SIT 7
+    2 Altaria SIT 143
+
+    Trainer: 13
+    4 Ultra Ball SVI 196
+    1 Raihan EVS 152
+    2 Switch SVI 194
+    4 Professor's Research SVI 190
+    3 Jacq SVI 175
+    4 Level Ball BST 129
+    1 Avery CRE 130
+    1 Worker SIT 167
+    2 Leafy Camo Poncho SIT 160
+    2 Gardenia's Vigor ASR 143
+    1 Roxanne ASR 150
+    4 Nest Ball SVI 181
+    2 Boss's Orders BRS 132
+
+    Energy: 2
+    8 Basic {G} Energy SVE 1
+    4 Double Turbo Energy BRS 151
+
+    Total Cards: 60
     ```
 1. Run `npm build`
 1. Run `npm run`

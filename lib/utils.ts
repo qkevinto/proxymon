@@ -1,6 +1,10 @@
 import fetch from 'node-fetch'
 import ProgressBar from 'progress'
 import { PokemonTCGSDK } from 'pokemontcgsdk'
+import { Card } from './card'
+import fs from 'fs'
+import { TCGSet } from './tcg-set';
+import { SetCodes } from './set-codes';
 
 export function mm(value: number): number {
     return value * 2.834645669
@@ -28,7 +32,20 @@ export async function getDeckImages(cards: string[], pokemontcgsdk: PokemonTCGSD
     return await Promise.all(images)
 }
 
-export function createDeck(groupedCards: [number, string, string][]): string[] {
+export function createDeck(groupedCards: Card[]): string[] {
     const allCards = groupedCards.map(([count, id]) => Array(count).fill(id))
     return allCards.flatMap(cards => cards)
+}
+
+export async function getSetCodes(): Promise<SetCodes> {
+    const data = await fs.promises.readFile('./data/sets.json', 'utf8')
+    const sets: TCGSet[] = JSON.parse(data);
+    const filteredSets = sets.filter(set => !set.id.includes('tg'))
+    const decklist = filteredSets.reduce((prev, curr) => {
+        prev[curr.ptcgoCode] = curr.id
+
+        return prev
+    }, <SetCodes>{})
+
+    return decklist
 }

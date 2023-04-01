@@ -13,5 +13,4 @@ export interface Configuration {
         margin: number
         cardGap: number
     }
-    cards: [number, string, string][]
 }
