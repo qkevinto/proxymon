@@ -1,4 +1,4 @@
-import { generate } from './libs/generate'
+import { generate } from './generate'
 import fs from 'fs'
 
 console.log('Proxymon: Pokémon TCG Proxy Deck Generator\n')
