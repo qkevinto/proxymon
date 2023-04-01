@@ -2,7 +2,7 @@ import PDFDocument from 'pdfkit'
 import { createDeck, getDeckImages, mm } from './utils.js'
 import fs from 'fs'
 import pokemontcgsdk from 'pokemontcgsdk'
-import { Configuration } from './configuration.js'
+import { Configuration } from './models/configuration.js'
 import path from 'path'
 
 export async function generate(configuration: Configuration, cards: [number, string, string][]) {

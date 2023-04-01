@@ -1,10 +1,10 @@
 import fetch from 'node-fetch'
 import ProgressBar from 'progress'
 import { PokemonTCGSDK } from 'pokemontcgsdk'
-import { Card } from './card'
+import { Card } from './models/card'
 import fs from 'fs'
-import { TCGSet } from './tcg-set';
-import { SetCodes } from './set-codes';
+import { TCGSet } from './models/tcg-set';
+import { SetCodes } from './models/set-codes';
 
 export function mm(value: number): number {
     return value * 2.834645669

@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import { ParsedCard } from './models/parsed-card'
+import { ParsedDecklist } from './models/parsed-decklist'
 import { getSetCodes } from './utils'
 
 const SET_PATTERN = /(?:\* )?(\d+) (.*) ([A-Z]{2,3}|[A-Z]{2}-[A-Z]{2}|[A-Z0-9]{3})? (\d+|XY\d+|BW\d+)/
@@ -45,7 +47,7 @@ const BASIC_ENERGY_IDS: { [key: string]: string } = {
     '{W}': 'sm1-166',
 }
 
-const isBasicEnergy = (row: string) => {
+const isBasicEnergy = (row: string): boolean => {
     return (
         BASIC_ENERGY_TYPES.map(energy => row.includes(`${energy} Energy`)).filter(
             c => c
@@ -53,7 +55,7 @@ const isBasicEnergy = (row: string) => {
     )
 }
 
-const parseRow = (row: string) => {
+const parseRow = (row: string): string[] | null => {
     let result = null
     if (isBasicEnergy(row)) {
         result = row.match(BASIC_ENERGY_PATTERN)
@@ -63,44 +65,42 @@ const parseRow = (row: string) => {
     return result && result.slice(1)
 }
 
-export const decklistParser = async (decklist: string) => {
+export const decklistParser = async (decklist: string): Promise<ParsedDecklist> => {
     const setcodes = await getSetCodes()
 
-    const parsed = {
-        cards: decklist
-            .split('\n')
-            .map(row => {
-                const card = parseRow(row)
-                if (card) {
-                    const [amount, name, set, code] = card
-                    let promoSet = null
-                    let isEnergy = false
+    const cards: ParsedCard[] = decklist
+        .split('\n')
+        .map(row => {
+            const card = parseRow(row)
+            if (card) {
+                const [amount, name, set, code] = card
+                let promoSet = null
+                let isEnergy = false
 
-                    if (set && set.startsWith('PR')) {
-                        promoSet = set.split('-')[1]
-                    }
-
-                    if (BASIC_ENERGY_TYPES.indexOf(name) >= 0) {
-                        isEnergy = true
-                    }
-
-                    return {
-                        amount,
-                        name: isEnergy ? `${name} Energy` : name,
-                        set,
-                        code,
-                        ptcgoio: {
-                            id: promoSet
-                                ? `${setcodes[set]}-${promoSet}${code}`
-                                : isEnergy
-                                    ? `${BASIC_ENERGY_IDS[name]}`
-                                    : `${setcodes[set]}-${code}`,
-                        },
-                    }
+                if (set && set.startsWith('PR')) {
+                    promoSet = set.split('-')[1]
                 }
-            })
-            .filter(c => c),
-    }
 
-    return parsed
+                if (BASIC_ENERGY_TYPES.indexOf(name) >= 0) {
+                    isEnergy = true
+                }
+
+                return {
+                    amount: parseInt(amount),
+                    name: isEnergy ? `${name} Energy` : name,
+                    set,
+                    code,
+                    ptcgoio: {
+                        id: promoSet
+                            ? `${setcodes[set]}-${promoSet}${code}`
+                            : isEnergy
+                                ? `${BASIC_ENERGY_IDS[name]}`
+                                : `${setcodes[set]}-${code}`,
+                    },
+                }
+            }
+        })
+        .filter(c => c) as ParsedCard[]
+
+    return { cards }
 }
