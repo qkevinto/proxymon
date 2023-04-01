@@ -4,7 +4,7 @@
   "description": "Tool to generate a Pokémon TCG proxy deck as a printable PDF",
   "main": "./lib/index.ts",
   "scripts": {
-    "run": "node ./dist/index.js",
+    "generate": "node ./dist/index.js",
     "build": "tsc"
   },
   "author": "Kevin To",

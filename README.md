@@ -71,5 +71,5 @@ npm install
 
     Total Cards: 60
     ```
-1. Run `npm build`
-1. Run `npm run`
+1. Run `npm run build`
+1. Run `npm run generate`
