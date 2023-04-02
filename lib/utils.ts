@@ -1,10 +1,8 @@
 import fetch from 'node-fetch'
 import ProgressBar from 'progress'
-import { PokemonTCGSDK } from 'pokemontcgsdk'
+import pokemontcgsdk from 'pokemontcgsdk'
 import { Card } from './models/card'
-import fs from 'fs'
-import { TCGSet } from './models/tcg-set';
-import { SetCodes } from './models/set-codes';
+import { SetCodes } from './models/set-codes'
 
 export function mm(value: number): number {
     return value * 2.834645669
@@ -16,14 +14,14 @@ async function imageAsBuffer(imageUrl: string): Promise<Buffer> {
     return Buffer.from(imageBuffer)
 }
 
-async function getCardImage(id: string, pokemontcgsdk: PokemonTCGSDK): Promise<Buffer> {
+async function getCardImage(id: string): Promise<Buffer> {
     const card = await pokemontcgsdk.card.find(id)
     const imageUrl = card.images.large
     return await imageAsBuffer(imageUrl)
 }
 
-export async function getDeckImages(cards: string[], pokemontcgsdk: PokemonTCGSDK): Promise<Buffer[]> {
-    const images = cards.map(card => getCardImage(card, pokemontcgsdk))
+export async function getDeckImages(cards: string[]): Promise<Buffer[]> {
+    const images = cards.map(card => getCardImage(card))
     const bar = new ProgressBar('Downloading images [:bar] :current/:total :etas', {
         total: images.length,
         width: 20,
@@ -38,11 +36,17 @@ export function createDeck(groupedCards: Card[]): string[] {
 }
 
 export async function getSetCodes(): Promise<SetCodes> {
-    const data = await fs.promises.readFile('./data/sets.json', 'utf8')
-    const sets: TCGSet[] = JSON.parse(data);
+    const sets = await pokemontcgsdk.set.all()
     const filteredSets = sets.filter(set => !set.id.includes('tg'))
     const decklist = filteredSets.reduce((prev, curr) => {
-        prev[curr.ptcgoCode] = curr.id
+        let ptcgoCode = curr.ptcgoCode
+
+        // Temporarily patch in missing ptcgoCode from the API data
+        if (curr.id === 'sv1') {
+            ptcgoCode = 'SVI'
+        }
+
+        prev[ptcgoCode] = curr.id
 
         return prev
     }, <SetCodes>{})

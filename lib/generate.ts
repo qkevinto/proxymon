@@ -1,12 +1,10 @@
 import PDFDocument from 'pdfkit'
 import { createDeck, getDeckImages, mm } from './utils.js'
 import fs from 'fs'
-import pokemontcgsdk from 'pokemontcgsdk'
 import { Configuration } from './models/configuration.js'
 import path from 'path'
 
 export async function generate(configuration: Configuration, cards: [number, string, string][]) {
-    pokemontcgsdk.configure({ apiKey: configuration.pokemontcgApiKey })
     const deck = createDeck(cards)
 
     console.log(`Generating proxy deck with ${deck.length} cards:`)
@@ -15,7 +13,7 @@ export async function generate(configuration: Configuration, cards: [number, str
     })
     console.log()
 
-    const images = await getDeckImages(deck, pokemontcgsdk)
+    const images = await getDeckImages(deck)
     const margin = mm(configuration.layout.margin)
     const gap = mm(configuration.layout.cardGap)
 
