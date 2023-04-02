@@ -30,9 +30,9 @@ export async function getDeckImages(cards: string[]): Promise<Buffer[]> {
     return await Promise.all(images)
 }
 
-export function createDeck(groupedCards: Card[]): string[] {
-    const allCards = groupedCards.map(([count, id]) => Array(count).fill(id))
-    return allCards.flatMap(cards => cards)
+export function createDeck(cards: Card[]): string[] {
+    const flattenedCards = cards.map(({ amount, id }) => Array(amount).fill(id))
+    return flattenedCards.flatMap(cards => cards)
 }
 
 export async function getSetCodes(): Promise<SetCodes> {
@@ -52,4 +52,13 @@ export async function getSetCodes(): Promise<SetCodes> {
     }, <SetCodes>{})
 
     return decklist
+}
+
+export function logDeckContents(cards: Card[]): void {
+    const totalCards = cards.reduce((prev, curr) => prev + curr.amount, 0)
+    console.log(`Generating proxy deck with ${totalCards} cards:`)
+    cards.forEach(({ amount, id, name }) => {
+        console.log(`${amount}x ${name} (${id})`)
+    })
+    console.log()
 }

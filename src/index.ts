@@ -11,7 +11,7 @@ async function main() {
         const rawDecklist = await fs.promises.readFile('./decklist', 'utf8')
         const decklist = await decklistParser(rawDecklist)
         const cards: Card[] = decklist.cards
-            .map(card => [card.amount, card.ptcgoio.id, card.name])
+            .map(card => ({ amount: card.amount, id: card.ptcgoio.id, name: card.name }))
         const rawConfiguration = await fs.promises.readFile('./config.json', 'utf8')
         const configuration = JSON.parse(rawConfiguration)
         pokemontcgsdk.configure({ apiKey: configuration.pokemontcgApiKey })

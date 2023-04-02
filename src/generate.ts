@@ -1,18 +1,14 @@
 import PDFDocument from 'pdfkit'
-import { createDeck, getDeckImages, mm } from './utils.js'
+import { createDeck, getDeckImages, logDeckContents, mm } from './utils.js'
 import fs from 'fs'
 import { Configuration } from './models/configuration.js'
 import path from 'path'
+import { Card } from './models/card.js'
 
-export async function generate(configuration: Configuration, cards: [number, string, string][]) {
+export async function generate(configuration: Configuration, cards: Card[]) {
+    logDeckContents(cards);
+
     const deck = createDeck(cards)
-
-    console.log(`Generating proxy deck with ${deck.length} cards:`)
-    cards.forEach(([count, id, name]) => {
-        console.log(`${count}x ${name} (${id})`)
-    })
-    console.log()
-
     const images = await getDeckImages(deck)
     const margin = mm(configuration.layout.margin)
     const gap = mm(configuration.layout.cardGap)
