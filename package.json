@@ -2,7 +2,7 @@
   "name": "proxymon",
   "version": "1.0.0",
   "description": "Tool to generate a Pokémon TCG proxy deck as a printable PDF",
-  "main": "./lib/index.ts",
+  "main": "./src/index.ts",
   "scripts": {
     "generate": "node ./dist/index.js",
     "build": "tsc"
