@@ -90,7 +90,11 @@ export async function getSetCodes(pokemonTCGAPIRepository: PokemonTCGAPIReposito
             ptcgoCode = 'SVI'
         }
 
-        prev[ptcgoCode] = curr.id
+        // If set already exists don't override it, prevents trainer gallery
+        // sets from getting included
+        if (!prev[ptcgoCode]) {
+            prev[ptcgoCode] = curr.id
+        }
 
         return prev
     }, <SetCodes>{})
