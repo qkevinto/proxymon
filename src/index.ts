@@ -18,7 +18,7 @@ async function main() {
         const cards: Card[] = decklist.cards
             .map(card => ({ amount: card.amount, id: card.ptcgoio.id, name: card.name }))
 
-        await generate(configuration, pokemonTCGAPIRepository, cards)
+        await generate(pokemonTCGAPIRepository, configuration, cards)
     } catch (err) {
         console.error(err)
     }

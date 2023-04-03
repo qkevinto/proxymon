@@ -48,7 +48,7 @@ const BASIC_ENERGY_IDS: { [key: string]: string } = {
     '{W}': 'swsh12pt5-154',
 }
 
-const isBasicEnergy = (row: string): boolean => {
+function isBasicEnergy(row: string): boolean {
     return (
         BASIC_ENERGY_TYPES.map(energy => row.includes(`${energy} Energy`)).filter(
             c => c
@@ -56,7 +56,7 @@ const isBasicEnergy = (row: string): boolean => {
     )
 }
 
-const parseRow = (row: string): string[] | null => {
+function parseRow(row: string): string[] | null {
     let result = null
     if (isBasicEnergy(row)) {
         result = row.match(BASIC_ENERGY_PATTERN)
@@ -66,7 +66,7 @@ const parseRow = (row: string): string[] | null => {
     return result && result.slice(1)
 }
 
-export const decklistParser = async (pokemonTCGAPIRepository: PokemonTCGAPIRepository, decklist: string): Promise<ParsedDecklist> => {
+export async function decklistParser(pokemonTCGAPIRepository: PokemonTCGAPIRepository, decklist: string): Promise<ParsedDecklist> {
     const setcodes = await getSetCodes(pokemonTCGAPIRepository)
 
     const cards: ParsedCard[] = decklist

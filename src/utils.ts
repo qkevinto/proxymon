@@ -18,7 +18,7 @@ async function getCardWithCache(pokemonTCGAPIRepository: PokemonTCGAPIRepository
     } else {
         const card = await pokemonTCGAPIRepository.card(id)
         if (!card) {
-            throw Error(`Error not loading ${id}`)
+            throw Error(`Could not load card ${id}`)
         }
         cardCache[id] = card
         return card
@@ -32,7 +32,7 @@ async function getImageWithCache(imageUrl: string): Promise<Buffer> {
     } else {
         const image = await fetch(imageUrl)
         if (!image) {
-            throw Error(`Error loading ${imageUrl}`)
+            throw Error(`Could not loading image at ${imageUrl}`)
         }
         const bufferArray = await image.arrayBuffer()
         const buffer = Buffer.from(bufferArray)
@@ -41,43 +41,37 @@ async function getImageWithCache(imageUrl: string): Promise<Buffer> {
     }
 }
 
-async function getCardImage(pokemonTCGAPIRepository: PokemonTCGAPIRepository, id: string, onError?: (id: string) => void): Promise<Buffer | undefined> {
-    try {
-        const card = await getCardWithCache(pokemonTCGAPIRepository, id)
-        const imageUrl = card?.images?.large
-        return getImageWithCache(imageUrl)
-    } catch(error) {
-        if (!!onError) {
-            onError(id)
-        }
-        return Promise.resolve(undefined);
-    }
+async function getCardImage(pokemonTCGAPIRepository: PokemonTCGAPIRepository, id: string): Promise<Buffer | undefined> {
+    const card = await getCardWithCache(pokemonTCGAPIRepository, id)
+    const imageUrl = card?.images?.large
+    return getImageWithCache(imageUrl)
 }
 
-export async function getDeckImages(pokemonTCGAPIRepository: PokemonTCGAPIRepository, cards: string[]): Promise<Buffer[]> {
+export async function getDeckImages(pokemonTCGAPIRepository: PokemonTCGAPIRepository, cards: Card[]): Promise<Buffer[]> {
+    const expandedCards = cards.map(({ amount, id }) => Array(amount).fill(id))
+    const flattenedCards = expandedCards.flatMap(cards => cards)
+
     const bar = new ProgressBar('Downloading images [:bar] :current/:total :etas', {
-        total: cards.length,
+        total: flattenedCards.length,
         width: 20,
     })
 
     const resolvedImages: Buffer[] = []
 
-    for (const card of cards) {
-        const image = await getCardImage(pokemonTCGAPIRepository, card, id => {
-            bar.interrupt(`Error loading ${id}`)
-        })
-        bar.tick()
-        if (!!image) {
-            resolvedImages.push(image)
+    for (const card of flattenedCards) {
+        try {
+            const image = await getCardImage(pokemonTCGAPIRepository, card)
+            if (!!image) {
+                resolvedImages.push(image)
+            }
+        } catch(error) {
+            bar.interrupt(`${error}`)
         }
+
+        bar.tick()
     }
 
     return resolvedImages
-}
-
-export function createDeck(cards: Card[]): string[] {
-    const flattenedCards = cards.map(({ amount, id }) => Array(amount).fill(id))
-    return flattenedCards.flatMap(cards => cards)
 }
 
 export async function getSetCodes(pokemonTCGAPIRepository: PokemonTCGAPIRepository): Promise<SetCodes> {

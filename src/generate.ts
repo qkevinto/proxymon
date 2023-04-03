@@ -1,16 +1,15 @@
 import PDFDocument from 'pdfkit'
-import { createDeck, getDeckImages, logDeckContents, mm } from './utils.js'
+import { getDeckImages, logDeckContents, mm } from './utils.js'
 import fs from 'fs'
 import { Configuration } from './models/configuration.js'
 import path from 'path'
 import { Card } from './models/card.js'
 import { PokemonTCGAPIRepository } from './repository/pokemonTCGAPI.js'
 
-export async function generate(configuration: Configuration, pokemonTCGAPIRepository: PokemonTCGAPIRepository, cards: Card[]) {
+export async function generate(pokemonTCGAPIRepository: PokemonTCGAPIRepository, configuration: Configuration, cards: Card[]) {
     logDeckContents(cards);
 
-    const deck = createDeck(cards)
-    const images = await getDeckImages(pokemonTCGAPIRepository, deck)
+    const images = await getDeckImages(pokemonTCGAPIRepository, cards)
     const margin = mm(configuration.layout.margin)
     const gap = mm(configuration.layout.cardGap)
 
