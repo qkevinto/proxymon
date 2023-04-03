@@ -12,7 +12,6 @@
   "dependencies": {
     "node-fetch": "^2.6.9",
     "pdfkit": "^0.13.0",
-    "pokemontcgsdk": "^2.0.0",
     "progress": "^2.0.3"
   },
   "devDependencies": {

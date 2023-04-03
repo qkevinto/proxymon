@@ -4,12 +4,13 @@ import fs from 'fs'
 import { Configuration } from './models/configuration.js'
 import path from 'path'
 import { Card } from './models/card.js'
+import { PokemonTCGAPIRepository } from './repository/pokemonTCGAPI.js'
 
-export async function generate(configuration: Configuration, cards: Card[]) {
+export async function generate(configuration: Configuration, pokemonTCGAPIRepository: PokemonTCGAPIRepository, cards: Card[]) {
     logDeckContents(cards);
 
     const deck = createDeck(cards)
-    const images = await getDeckImages(deck)
+    const images = await getDeckImages(pokemonTCGAPIRepository, deck)
     const margin = mm(configuration.layout.margin)
     const gap = mm(configuration.layout.cardGap)
 

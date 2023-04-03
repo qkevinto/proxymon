@@ -20,6 +20,7 @@
 
 import { ParsedCard } from './models/parsed-card'
 import { ParsedDecklist } from './models/parsed-decklist'
+import { PokemonTCGAPIRepository } from './repository/pokemonTCGAPI'
 import { getSetCodes } from './utils'
 
 const SET_PATTERN = /(?:\* )?(\d+) (.*) ([A-Z]{2,3}|[A-Z]{2}-[A-Z]{2}|[A-Z0-9]{3})? (\d+|XY\d+|BW\d+)/
@@ -65,8 +66,8 @@ const parseRow = (row: string): string[] | null => {
     return result && result.slice(1)
 }
 
-export const decklistParser = async (decklist: string): Promise<ParsedDecklist> => {
-    const setcodes = await getSetCodes()
+export const decklistParser = async (pokemonTCGAPIRepository: PokemonTCGAPIRepository, decklist: string): Promise<ParsedDecklist> => {
+    const setcodes = await getSetCodes(pokemonTCGAPIRepository)
 
     const cards: ParsedCard[] = decklist
         .split('\n')
