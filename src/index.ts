@@ -18,9 +18,10 @@ async function main() {
         const decklist = await decklistParser(pokemonTCGAPIRepository, rawDecklist)
         const cards: Card[] = decklist.cards
             .map(card => ({ amount: card.amount, id: card.ptcgoio.id, name: card.name }))
-        const images = await getDeckImages(pokemonTCGAPIRepository, cards)
 
         logDeckContents(cards)
+
+        const images = await getDeckImages(pokemonTCGAPIRepository, cards)
 
         await generate(configuration, images)
     } catch (err) {
