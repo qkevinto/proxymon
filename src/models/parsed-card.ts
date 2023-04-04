@@ -2,7 +2,7 @@ export interface ParsedCard {
     amount: number
     name: string
     set: string
-    code: string
+    code: number
     ptcgoio: {
         id: string
     }

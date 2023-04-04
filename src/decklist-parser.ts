@@ -75,6 +75,8 @@ export async function decklistParser(pokemonTCGAPIRepository: PokemonTCGAPIRepos
             const card = parseRow(row)
             if (card) {
                 const [amount, name, set, code] = card
+                // Trim off any leading zeroes
+                const trimmedCode = parseInt(code)
                 let promoSet = null
                 let isEnergy = false
 
@@ -90,13 +92,13 @@ export async function decklistParser(pokemonTCGAPIRepository: PokemonTCGAPIRepos
                     amount: parseInt(amount),
                     name: isEnergy ? `${name} Energy` : name,
                     set,
-                    code,
+                    code: trimmedCode,
                     ptcgoio: {
                         id: promoSet
-                            ? `${setcodes[set]}-${promoSet}${code}`
+                            ? `${setcodes[set]}-${promoSet}${trimmedCode}`
                             : isEnergy
                                 ? `${BASIC_ENERGY_IDS[name]}`
-                                : `${setcodes[set]}-${code}`,
+                                : `${setcodes[set]}-${trimmedCode}`,
                     },
                 }
             }
