@@ -23,7 +23,7 @@ npm install
             "width": 297,
             "height": 420
         },
-        // Size for the cards in millimeters, this is the actual size
+        // Optional, size for the cards in millimeters, defaults to 63w x 88h
         "cardSize": {
             "width": 63,
             "height": 88

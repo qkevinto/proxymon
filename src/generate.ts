@@ -4,17 +4,22 @@ import fs from 'fs'
 import { Configuration } from './models/configuration.js'
 import path from 'path'
 
+const cardWidth = 63
+const cardHeight = 88
+
 export async function generate(configuration: Configuration, images: Buffer[]) {
     const margin = mm(configuration.layout.margin)
     const gap = mm(configuration.layout.cardGap)
 
     const pageSize = {
         width: mm(configuration.pageSize.width),
-        height: mm(configuration.pageSize.height)
+        height: mm(configuration.pageSize.height),
     }
     const cardSize = {
-        width: mm(configuration.cardSize.width),
-        height: mm(configuration.cardSize.height)
+        width: !!configuration.cardSize?.width ?
+            mm(configuration.cardSize.width) : mm(cardWidth),
+        height: !!configuration.cardSize?.height ?
+            mm(configuration.cardSize.height) : mm(cardHeight),
     }
 
     const maxX = pageSize.width - margin
