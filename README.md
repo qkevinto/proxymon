@@ -6,9 +6,8 @@ Tool to generate a Pokémon TCG proxy deck as a printable PDF
 
 ## Installation
 
-```
-npm install
-```
+1. Clone this repository
+2. Run `npm install` to install dependencies
 
 ## Usage
 
