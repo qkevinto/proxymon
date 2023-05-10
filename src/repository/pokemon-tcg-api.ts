@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
-import { HeadersInit } from "node-fetch";
+import fetch from 'node-fetch'
+import { HeadersInit } from 'node-fetch'
 
 export interface SetDto {
     id: string

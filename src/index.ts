@@ -2,7 +2,7 @@ import { Card } from './models/card'
 import { generate } from './generate'
 import { decklistParser } from './decklist-parser'
 import fs from 'fs'
-import { pokemonTCGAPIRepositoryFactory } from './repository/pokemonTCGAPI'
+import { pokemonTCGAPIRepositoryFactory } from './repository/pokemon-tcg-api'
 import { Configuration } from './models/configuration'
 import { getDeckImages, logDeckContents } from './utils'
 

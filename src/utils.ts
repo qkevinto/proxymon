@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import ProgressBar from 'progress'
 import { Card } from './models/card'
 import { SetCodes } from './models/set-codes'
-import { CardDto, PokemonTCGAPIRepository } from './repository/pokemonTCGAPI'
+import { CardDto, PokemonTCGAPIRepository } from './repository/pokemon-tcg-api'
 
 const cardCache: { [id: string]: CardDto } = {}
 const imageCache: { [url: string]: Buffer } = {}

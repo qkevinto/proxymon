@@ -20,7 +20,7 @@
 
 import { ParsedCard } from './models/parsed-card'
 import { ParsedDecklist } from './models/parsed-decklist'
-import { PokemonTCGAPIRepository } from './repository/pokemonTCGAPI'
+import { PokemonTCGAPIRepository } from './repository/pokemon-tcg-api'
 import { getSetCodes } from './utils'
 
 const SET_PATTERN = /(?:\* )?(\d+) (.*) ([A-Z]{2,3}|[A-Z]{2}-[A-Z]{2}|[A-Z0-9]{3})? (\d+|XY\d+|BW\d+)/
